@@ -1,0 +1,63 @@
+работа с коммитами:
+	touch (file name) - создать файл
+	vi (file name) - открыть код в vim
+	git diff - показать все изменения в файлах
+	git show (commit id) без скобок - что мы делали в определенном коммите 
+
+ветки:
+	git branch - список существующих веток
+	git branch (branch_name) - создание новой ветки
+	git checkout (branch_name) - перейти в другую ветку
+	git merge (branch_name) - смержить текущую ветку с другой
+	git branch -d (branch_name) - удалить определенную ветку
+
+workflow:
+	1) создать ветку develop с master ветки
+		git checkout -b (develop) - создать новую ветку и перейти в нее (после этого нужно сделать git push)
+	2) создать фичу, чтобы авторизировать проект. 
+		git checkout -b (feature/implementing-auth)
+	3) по завершение разработки фичи, нужно влить её в develop
+		git checkout develop
+		git merge (feature/implementing-auth)
+	4) если менеджер хочет влить фичу в продакшен, нужно создать релиз ветку 
+		git checkout -b (release/1.0)
+	5) если все ок, то сливаем релиз в ветку master
+		git checkout master
+		git merge (release/1.0)
+		git push
+
+gitflow:
+	git flow init - инициализируем git flow
+	1) создаем новую фичу (автоматически переходит в нее) (commit - add)
+		git flow feature start (implement-registration)
+	2) когда закончим изменения в фиче
+		git flow feature finish (implement-registration)
+	3) создадим релиз
+		git flow realease start (1.1)
+	git br -D (release/1.0) - если нужно, то удаляем ветку
+	4) заканчиваем релиз (wq) нужно будет ввести коммиты, для 1 раза пропускаем, для второго - (1.1)
+	   мы смержили ветку в мастер, поставили тэг, как 1.1, смержили веткув develop и удалили ветку релиза
+		git flow realease finish '(1.1)'
+	5) если что-то сломалось на мастер и нужно сделать hotfix
+		git flow hotfix start 1.1.1
+	6) закончили хотфикс (появятся мержи - просто сохраняем wq)
+		git flow hotfix finish 1.1.1
+	7) git tag - у нас есть два тега (1.1 и 1.1.1). Теги - метки, по которым можно переключаться. Используются
+	   для маркировки релиза
+	8) git tag (1.2) - создание тега
+		git checkout -b (1.2) - создать новую ветку и возмет последний коммит, который был в теге 1.2 на эту ветку
+	9) git push origin --tags - пушит теги
+
+merge конфликтов: 
+	git merge conflicted-branch - мержим в текущую conflicted-branch
+	vi 'auth.js'
+
+git pull, git push: 
+	origin - remote - наш репозиторий
+	git pull состоит из git fetch и git merge origin/(develop)
+	git push - короткая вариация. git push origin (develop) - длинная
+	git branch --set-upstream-to=origin/(branch_name)
+	
+
+	
+		
